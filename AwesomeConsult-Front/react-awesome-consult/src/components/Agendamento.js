@@ -25,6 +25,7 @@ export default class Agendamento extends Component {
 
     agendarClick = () => {
         console.log(this.state)
+        console.log(Console())
     };
 
     render() {
