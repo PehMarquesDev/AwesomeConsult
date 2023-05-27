@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import './Agendamento.css'
 import axios from 'axios';
-
- async function consulta() {
-     const response = await axios.get('http://localhost:4000/tipoconsultas')
-     return response;
- }
+import Consultas from './Consultas';
 
 export default class Agendamento extends Component {
 
@@ -25,15 +21,9 @@ export default class Agendamento extends Component {
 
     agendarClick = () => {
         console.log(this.state)
-        console.log(Console())
     };
 
     render() {
-        async function consulta() {
-            const response = await axios.get('http://localhost:4000/tipoconsultas')
-            return response;
-        }
-        console.log(consulta().data)
         return (
             <div className='agendamento'>
                 <form>
@@ -46,9 +36,7 @@ export default class Agendamento extends Component {
                     <input type="text" required onChange={(event => { this.setState({ email: event.target.value }) })}></input><br></br>
 
                     <label>Em qual especialidade você gostaria de agendar sua consulta?</label><br></br>
-                    {<select id="consultas" name="consultas">
-                        <option value="consulta">consulta.dados</option>
-                    </select>}
+                    <Consultas nome="Nome" telefone="telefone" tipoConsulta="consulta" data="data"></Consultas>
 
                     <input type="text" required onChange={(event => { this.setState({ tipoConsulta: event.target.value }) })}></input><br></br>
                     <label>Selecione a data e a hora de sua consulta:</label><br></br>

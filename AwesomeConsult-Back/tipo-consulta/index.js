@@ -12,5 +12,5 @@ res.status(201).send(consultas);
 });
 
 app.listen(4000, () => {
-    console.log('Tipos de consulta ON. Porta 4000');
+    console.log('Tipos de Consulta ON. Porta 4000');
 });
