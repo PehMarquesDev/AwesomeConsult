@@ -1,33 +1,25 @@
 import { useState, useEffect } from 'react'
-import './Agendamento.css'
-import './Consultas.js'
+import './Consultas.css'
 import axios from 'axios';
 
-const Consultas = () => {
-
-    const [consultas, setConsultas] = useState([])
-
-    const getConsultas = async () => {
-        try {
-            const response = await axios.get('http://localhost:4000/tipoconsultas');
-            const data = response.data;
-            console.log(data);
-            setConsultas(consultas);
-        }
-        catch (error) {
-            console.log(error)
-        }
-    }
+const Consultas = (props) => {
+    const [listConsultas, setConsultas] = useState([])
 
     useEffect(() => {
-        getConsultas();
+        axios
+        .get('http://localhost:4000/tipoconsultas')
+        .then((res) => {
+            setConsultas(res.data);
+        })
+            .catch((err)=>console.log(err))
     }, [])
 
     return (
-        <div className='agendamento'>        
-                {<select id="consultas" name="consultas">
-                        <option value="consulta">{consultas?.id}</option>
-                    </select>}
+        <div className='select-consultas'>
+            {<select required onChange={(event => props.setChanged(event.target.value))}>
+            <option option defaultValue=''>Clique para selecionar uma consulta..</option>
+                {listConsultas.map((consulta) => <option value={consulta.consulta}>{consulta.consulta}</option>)}
+            </select>}
         </div>
     )
 }
