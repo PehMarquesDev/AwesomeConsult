@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Agendamento.css'
-import axios from 'axios';
+import axios, { toFormData } from 'axios';
 import Consultas from './Consultas.js';
 
 export default class Agendamento extends Component {
@@ -24,19 +24,34 @@ export default class Agendamento extends Component {
         this.setState({ tipoConsulta: value });
     }
 
-    agendarClick = () => {
+    agendarClick = (event) => {
+        event.preventDefault()
         axios
             .post('http://localhost:5000/agendamento',
                 this.state)
             .then((res) => {
                 console.log(res.data)
+                alert('Olá Sr(a). ' + this.state.nome + '! Sua consulta foi agendada com sucesso!', 'ssss')
                 //setPost(res.data);
             })
-            .catch((err) => console.log(err))
+            .catch((err) => alert('Olá Sr(a). ' + this.state.nome + '! Houve um erro ao agendar sua consulta. Tente novamente mais tarde.'))
         console.log(this.state);
     };
 
+
     render() {
+        // const today = new Date();
+        // today.setDate(today.getDate() + 7);
+        // today = today.toISOString().split('T')[0];
+
+        // datefield.min = new Date().toISOString().split("T")[0];
+
+        let preenchido;
+        if (this.state.nome == "" || this.state.telefone == "" || this.state.email == "" || this.state.tipoConsulta == "" || this.state.data == "" || this.state.hora == "") {
+            preenchido = <input type="submit" value="Agendar"></input>;
+        } else {
+            preenchido = <input type="submit" value="Agendar" onClick={this.agendarClick}></input>;
+        }
         return (
             <div className='agendamento'>
                 <form>
@@ -56,7 +71,8 @@ export default class Agendamento extends Component {
                     <input type="date" required onChange={(event => { this.setState({ data: event.target.value }) })}></input><br></br>
                     <input type="time" required onChange={(event => { this.setState({ hora: event.target.value }) })}></input><br></br>
                     <p>
-                        <input type="submit" value="Agendar" onClick={this.agendarClick}></input>
+                        {/* <input type="submit" value="Agendar" onClick={this.agendarClick}></input> */}
+                        {preenchido}
                     </p>
 
                 </form>
