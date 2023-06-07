@@ -16,7 +16,7 @@ app.post('/eventos', async (req, res) => {
         await axios.post("http://localhost:6000/eventos", evento);
     }
     catch (error) {
-        console.log("O serviço de Classificação está indisponível")
+        console.log("O serviço de envio de email está indisponível")
     }
     res.status(200).send({ msg: "ok" });
 });

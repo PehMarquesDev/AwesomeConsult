@@ -8,13 +8,12 @@ app.use(bodyParser.json());
 const dados = {};
 
 const transporte = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // true 465, false outras portas
+    host: 'smtp-mail.outlook.com',
+    port: 587,
+    secure: false, // true 465, false outras portas
     auth: {
         user: 'awesomeconsultmail@gmail.com',
-        //pass: '@wesome19',
-        pass: 'ktqrmzubxeyktkvj',
+        pass: '@wesome19',
     }
 });
 
@@ -24,17 +23,15 @@ function FormatarData(DataEntrada, formato) {
     const dia = data.getDate();
     const mes = data.getMonth() + 1;
     const ano = data.getFullYear();    
-    //replace the month
+
     formato = formato.replace("MM", mes.toString().padStart(2,"0"));        
 
-    //replace the year
     if (formato.indexOf("yyyy") > -1) {
         formato = formato.replace("yyyy", ano.toString());
     } else if (formato.indexOf("yy") > -1) {
         formato = formato.replace("yy", ano.toString().substring(2,2));
     }
 
-    //replace the day
     formato = formato.replace("dd", dia.toString().padStart(2,"0"));
 
     return formato;
@@ -43,7 +40,13 @@ function FormatarData(DataEntrada, formato) {
 const funcoes = {
 
     EnvioEmail: (dados) => {
-        const [, nome] = dados.nome.match(/([^ ]+) /) || [];
+        
+        const nome = dados.nome
+        console.log(dados.nome.substring(0, dados.nome.indexOf(' ')))
+        // if(nome.indexOf(' ') >= 0){    
+        //     nome = dados.nome.split(' ')[0]
+        //     console.log("nome")
+        // }       
         const data = FormatarData(dados.data, 'dd/MM/yyyy');
         transporte.sendMail({
             from: 'AwesomeConsult <awesomeconsultmail@gmail.com>',
